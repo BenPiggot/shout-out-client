@@ -3,24 +3,25 @@ import styled from 'styled-components';
 
 const HeaderContainer = styled.div`
   width: 100%;
-  background-color: #0168BD;
-  padding: 20px;
+  background-color: steelblue;
   color: white;
+  padding: 0 20px;
 `;
 
 const Logo = styled.h1`
-  text-transform: uppercase;
   transform: skew(-9deg);
   margin: 0;
   padding: 0;
-  font-size: 30px;
+  font-size: 25px;
+  text-align: left;
+  font-family: 'Poppins';
 `;
 
 class Header extends React.Component<{}, {}> {
   render() {
     return ( 
       <HeaderContainer>
-        <Logo>Shout Out</Logo>
+        <Logo>What's Happening at Logicworks...</Logo>
       </HeaderContainer>
     )
   }

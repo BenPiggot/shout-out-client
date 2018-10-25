@@ -3,6 +3,7 @@ import styled, { createGlobalStyle } from 'styled-components';
 import Header from './components/Header';
 import Message from './components/Message';
 import Comments from './components/Comments';
+import { MessageObject } from './types';
 
 const GlobalStyle = createGlobalStyle`
   @font-face {
@@ -23,7 +24,8 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     font-size: 1.5rem;
     line-height: 2;
-    font-family: 'radnika_next'
+    font-family: 'Roboto';
+    background-color: ghostwhite;
   }
   a {
     text-decoration: none;
@@ -32,26 +34,79 @@ const GlobalStyle = createGlobalStyle`
 
 const AppContainer = styled.div`
   display: grid;
-  grid-template-columns: 65% 35%;
+  grid-template-columns: 70% 30%;
   grid-column-gap: 2%;
   margin: 2% 5%;
 `;
 
 interface ShoutOutAppState {
-  message: {}
+  message: MessageObject
 }
 
-class ShoutOutApp extends React.Component<{},{}> {
-  state = {
-    message: Message
+const message = {
+  "message": "@BenPiggot did something awesome",
+  "reactions": [
+    {
+      "user": "jrosen",
+      "type": "thumbsup"
+    },
+    {
+      "user": "dpohl",
+      "type": "grinning"
+    }
+  ],
+  "comments": [
+    {
+      "user": "jrosen",
+      "message": "Way to go!!"
+    }
+  ],
+  "type": 'general',
+  "source": 'slack',
+  "recipient": [],
+  "expiration": 60000
+}
+
+class ShoutOutApp extends React.Component<{}, ShoutOutAppState> {
+  state: ShoutOutAppState = {
+    message: {
+      "message": "",
+      "reactions": [],
+      "comments": [],
+      "type": '',
+      "source": '',
+      "recipient": [],
+      "expiration": 60000
+    }
   }
+
+  componentDidMount() {
+    this.getLatestMessage();
+    setInterval(this.getLatestMessage, 5000);
+  }
+
+  getLatestMessage = () => {
+    fetch('https://jsonplaceholder.typicode.com/todos/1')
+    .then(response => response.json())
+    .then(data => {
+      this.setState({
+        message
+      })
+    })
+  }
+
   render() {
+    const { message } = this.state;
     return (
       <div>
         <Header />
         <AppContainer>
-          <Message message={{title: 'this is my message'}}/>
-          <Comments />
+          <Message message={message} />
+          <Comments 
+            reactions={message.reactions} 
+            comments={message.comments} 
+            expiration={message.expiration}
+          />
         </AppContainer>
         <GlobalStyle />
       </div>

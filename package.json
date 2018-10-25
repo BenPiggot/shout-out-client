@@ -12,11 +12,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/react-transition-group": "^2.0.14",
     "@types/styled-components": "^4.0.2",
     "babel-plugin-styled-components": "^1.8.0",
     "date-fns": "^2.0.0-alpha.11",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "react-transition-group": "^2.5.0",
     "styled-components": "^4.0.2",
     "whatwg-fetch": "^3.0.0"
   },
