@@ -34,8 +34,7 @@ const GlobalStyle = createGlobalStyle`
 
 const AppContainer = styled.div`
   display: grid;
-  grid-template-columns: 70% 30%;
-  grid-column-gap: 2%;
+  grid-row-gap: 2ch;
   margin: 2% 5%;
 `;
 
@@ -43,8 +42,8 @@ interface ShoutOutAppState {
   message: MessageObject
 }
 
-const message = {
-  "message": "@BenPiggot did something awesome",
+const message = { // FOR TESTING PURPOSES
+  "message": "@BenPiggot did something awesome...Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
   "reactions": [
     {
       "user": "jrosen",
@@ -82,17 +81,24 @@ class ShoutOutApp extends React.Component<{}, ShoutOutAppState> {
 
   componentDidMount() {
     this.getLatestMessage();
-    setInterval(this.getLatestMessage, 5000);
   }
 
   getLatestMessage = () => {
+    // fetch('https://t9hb769qo7.execute-api.us-east-1.amazonaws.com/prod/shout/current')
     fetch('https://jsonplaceholder.typicode.com/todos/1')
     .then(response => response.json())
     .then(data => {
       this.setState({
         message
+      }, () => {
+        setTimeout(this.getLatestMessage, this.state.message.expiration);
       })
     })
+  }
+
+  getTimeToExpiry = () => {
+    let currentTime: number = (new Date()).getTime();
+    return this.state.message.expiration - currentTime;
   }
 
   render() {

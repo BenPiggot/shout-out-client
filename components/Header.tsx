@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const HeaderContainer = styled.div`
   width: 100%;
-  background-color: steelblue;
+  background-color: #007FC9;
   color: white;
   padding: 0 20px;
 `;
