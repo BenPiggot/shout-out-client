@@ -58,8 +58,8 @@ class Comments extends React.Component<CommentsProps, {}> {
     return (
       <CommentsContainer>
         { 
-            this.state.userReaction && this.props.reactions.length ?
-              <Reaction reaction={this.props.reactions[this.state.currentReactionItemIdx % this.props.reactions.length ]}/> :
+          this.state.userReaction && this.props.reactions.length ?
+            <Reaction reaction={this.props.reactions[this.state.currentReactionItemIdx % this.props.reactions.length ]}/> :
               this.props.comments.length ? 
                 <Comment comment={this.props.comments[this.state.currentCommentItemIdx % this.props.comments.length]} /> : 
                 <div>Leave your comment or reaction!</div>

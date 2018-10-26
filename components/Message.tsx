@@ -57,7 +57,7 @@ class Message extends React.Component<MessageProps, {}> {
           {
             this.props.message.message ? 
               <MessageBody>
-                  { this.props.message.message }
+                { this.props.message.message }
               </MessageBody> :
               <LoadingState>
                 <PulseLoader
