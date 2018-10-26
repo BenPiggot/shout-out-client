@@ -43,30 +43,6 @@ interface ShoutOutAppState {
   message: MessageObject
 }
 
-// const message = { // FOR TESTING PURPOSES
-//   "message": "@BenPiggot did something awesome...Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupimessaget non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-//   "reactions": [
-//     {
-//       "user": "jrosen",
-//       "type": "thumbsup"
-//     },
-//     {
-//       "user": "dpohl",
-//       "type": "grinning"
-//     }
-//   ],
-//   "comments": [
-//     {
-//       "user": "jrosen",
-//       "message": "Way to go!!"
-//     }
-//   ],
-//   "type": 'general',
-//   "source": 'slack',
-//   "recipient": [],
-//   "expiration": 60000
-// }
-
 class ShoutOutApp extends React.Component<{}, ShoutOutAppState> {
   state: ShoutOutAppState = {
     message: {
