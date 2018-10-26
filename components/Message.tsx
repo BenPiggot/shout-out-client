@@ -2,6 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { MessageObject } from '../types';
 import * as ReactTransitionGroup from 'react-transition-group';
+import { PulseLoader } from 'react-spinners';
 
 const MessageContainer = styled.div`
   display: 'grid';
@@ -27,7 +28,19 @@ const MessageBody = styled.h3`
   padding: 0;
   margin: 0;
   font-size: 30px;
+  display: grid;
 `;
+
+const LoadingState = styled.div`
+  margin-top: 10px;
+  color: ghostwhite;
+  display: grid;
+  justify-items: center;
+  align-items:
+  h3 {
+    color: ghostwhite;
+  }
+`
 
 interface MessageProps {
   message: MessageObject
@@ -41,7 +54,18 @@ class Message extends React.Component<MessageProps, {}> {
         timeout={300}
       >
         <MessageContainer>
-          <MessageBody>{this.props.message.message}</MessageBody>
+          {
+            this.props.message.message ? 
+              <MessageBody>
+                  { this.props.message.message }
+              </MessageBody> :
+              <LoadingState>
+                <PulseLoader
+                  size={30}
+                  color={'lightslategrey'}
+                />
+              </LoadingState>
+          }
         </MessageContainer>
       </ReactTransitionGroup.CSSTransition >
     )

@@ -4,6 +4,7 @@ import Header from './components/Header';
 import Message from './components/Message';
 import Comments from './components/Comments';
 import { MessageObject } from './types';
+import { apiEndpoint } from './config/dev';
 
 const GlobalStyle = createGlobalStyle`
   @font-face {
@@ -42,29 +43,29 @@ interface ShoutOutAppState {
   message: MessageObject
 }
 
-const message = { // FOR TESTING PURPOSES
-  "message": "@BenPiggot did something awesome...Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-  "reactions": [
-    {
-      "user": "jrosen",
-      "type": "thumbsup"
-    },
-    {
-      "user": "dpohl",
-      "type": "grinning"
-    }
-  ],
-  "comments": [
-    {
-      "user": "jrosen",
-      "message": "Way to go!!"
-    }
-  ],
-  "type": 'general',
-  "source": 'slack',
-  "recipient": [],
-  "expiration": 60000
-}
+// const message = { // FOR TESTING PURPOSES
+//   "message": "@BenPiggot did something awesome...Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupimessaget non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+//   "reactions": [
+//     {
+//       "user": "jrosen",
+//       "type": "thumbsup"
+//     },
+//     {
+//       "user": "dpohl",
+//       "type": "grinning"
+//     }
+//   ],
+//   "comments": [
+//     {
+//       "user": "jrosen",
+//       "message": "Way to go!!"
+//     }
+//   ],
+//   "type": 'general',
+//   "source": 'slack',
+//   "recipient": [],
+//   "expiration": 60000
+// }
 
 class ShoutOutApp extends React.Component<{}, ShoutOutAppState> {
   state: ShoutOutAppState = {
@@ -75,7 +76,13 @@ class ShoutOutApp extends React.Component<{}, ShoutOutAppState> {
       "type": '',
       "source": '',
       "recipient": [],
-      "expiration": 60000
+      "createdAt": 0,
+      "expiration": 60000,
+      "visibility": false,
+      "checked": false,
+      "heat": 0,
+      "total_heat": 0,
+      "shout_id": ''
     }
   }
 
@@ -84,21 +91,23 @@ class ShoutOutApp extends React.Component<{}, ShoutOutAppState> {
   }
 
   getLatestMessage = () => {
-    // fetch('https://t9hb769qo7.execute-api.us-east-1.amazonaws.com/prod/shout/current')
-    fetch('https://jsonplaceholder.typicode.com/todos/1')
+    fetch(apiEndpoint)
     .then(response => response.json())
-    .then(data => {
+    .then(message => {
       this.setState({
         message
       }, () => {
-        setTimeout(this.getLatestMessage, this.state.message.expiration);
+        setTimeout(this.getLatestMessage, this.getTimeToExpiry());
       })
+    })
+    .catch(err => {
+      console.log(err)
     })
   }
 
   getTimeToExpiry = () => {
     let currentTime: number = (new Date()).getTime();
-    return this.state.message.expiration - currentTime;
+    return (this.state.message.expiration * 1000) - currentTime;
   }
 
   render() {

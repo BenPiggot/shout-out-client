@@ -42,13 +42,13 @@ class Comments extends React.Component<CommentsProps, {}> {
   setCommentIndex = (): void => {
     if (this.state.userReaction) {
       this.setState({
-        currentReactionItemIdx: this.state.currentReactionItemIdx + 1,
+        currentReactionItemIdx: this.state.currentReactionItemIdx < 100000 ? this.state.currentReactionItemIdx + 1 : 0,
         userReaction: false
       })
     }
     else {
       this.setState({
-        currentCommentItemIdx: this.state.currentCommentItemIdx + 1,
+        currentCommentItemIdx: this.state.currentCommentItemIdx < 100000 ? this.state.currentCommentItemIdx + 1 : 0,
         userReaction: true
       })
     }
@@ -58,11 +58,11 @@ class Comments extends React.Component<CommentsProps, {}> {
     return (
       <CommentsContainer>
         { 
-          this.props.reactions.length ? 
-            this.state.userReaction ?
-              <Reaction reaction={this.props.reactions[this.state.currentReactionItemIdx % this.props.reactions.length ]}/> : 
-              <Comment comment={this.props.comments[this.state.currentCommentItemIdx % this.props.comments.length]} /> : 
-            null 
+            this.state.userReaction && this.props.reactions.length ?
+              <Reaction reaction={this.props.reactions[this.state.currentReactionItemIdx % this.props.reactions.length ]}/> :
+              this.props.comments.length ? 
+                <Comment comment={this.props.comments[this.state.currentCommentItemIdx % this.props.comments.length]} /> : 
+                <div>Leave your comment or reaction!</div>
         }
       </CommentsContainer>
     )

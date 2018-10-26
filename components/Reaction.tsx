@@ -29,7 +29,7 @@ class Reaction extends React.Component<ReactionProps, {}> {
         timeout={300}
       >
         <ReactionText>
-          {this.props.reaction.type} - {this.props.reaction.user}
+          {`emoji(${this.props.reaction.type})`} - {this.props.reaction.user}
         </ReactionText>
       </ReactTransitionGroup.CSSTransition>
     )
